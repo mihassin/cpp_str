@@ -1,8 +1,8 @@
-//#include <iostream>
+#include <iostream>
 #include "String.h"
 
 //default constructor
-String::String() 
+String::String()
 {
   characters = new char[1];
   characters[1] = '\0';
@@ -25,3 +25,5 @@ String::~String()
   delete []characters;
   length = 0;
 }
+
+int main() { return 0; }
