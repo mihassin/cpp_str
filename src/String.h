@@ -1,11 +1,12 @@
-#include <iostream>
+#ifndef STRING_H
+#define STRING_H
 
-class String
-{
-  public:
+ class String
+ {
+    public:
 	  // Constructors
 	  String();	
-	  String(char*);
+	  String(const char*);
 	  String(const String&);
 
 	  //Destructor
@@ -15,12 +16,13 @@ class String
 	  String& operator=(const String&);
 	
 	  //Returns String length
-	  unsigned int const get_length() { return length; }
-	
+	  unsigned int get_length() const { return length; }
+
 	  //required functions
 
-    //overloaded operator[]
-	  char& operator[](unsigned int);	
+          //overloaded operator[] !cases i > length
+	  char& operator[](unsigned int i) { return characters[i]; }
+	  char operator[](unsigned int i) const { return characters[i]; }
 
 	  //insertion and deletion functions
 	  void push_back(char);
@@ -28,13 +30,15 @@ class String
 	  void insert();
 	  void erase();
 	
+	  //overloaded input and output operations
+	  friend std::ostream& operator<<(std::ostream&, const String&);
+	  friend std::istream& operator>>(std::istream&, String&);
+
 	  //swap() exhanges the contents of two strings
-  	String& swap(const String&);
+  	  String& swap(const String&);
   private:
 	  unsigned int length;
 	  char* characters;
 };
 
-//overloaded input and output operations
-std::ostream& operator<<(std::ostream&, const String&);
-std::istream& operator>>(std::istream&, String&);
+#endif
