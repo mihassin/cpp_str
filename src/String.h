@@ -10,7 +10,7 @@
 	  String(const String&);
 
 	  //Destructor
-	  ~String();
+	  ~String() { delete[] characters; }
 
 	  //copy assignment
 	  String& operator=(const String&);

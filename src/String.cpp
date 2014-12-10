@@ -42,11 +42,18 @@ String::String(const String& str)
 	characters[length] = '\0';
 }
 
-//destructor
-String::~String()
+//copy assignement
+String& String::operator=(const String& str)
 {
-  delete []characters;
-  length = 0;
+	if(this==&str) return *this;
+	
+	length = str.get_length();
+	char* arr = new char[length+1];		
+	for(int i = 0; i<=length; ++i) { arr[i] = str[i]; }
+	arr[length] = '\0';
+	delete[] characters;
+	characters = arr;
+	return *this;
 }
 
 // overloaded operator<<
