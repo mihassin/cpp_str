@@ -1,5 +1,6 @@
 src/*.o
-
+*.o
 src/*.out
-
+*.out
 src/*.gch
+*.gch
