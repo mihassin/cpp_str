@@ -21,8 +21,8 @@
 	  //required functions
 
           //overloaded operator[] !cases i > length
-	  char& operator[](unsigned int i) { return characters[i]; }
-	  char operator[](unsigned int i) const { return characters[i]; }
+	  char& operator[](int i) { return characters[i]; }
+	  char operator[](int i) const { return characters[i]; }
 
 	  //insertion and deletion functions
 	  void push_back(char);
