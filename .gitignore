@@ -6,3 +6,5 @@ src/*.gch
 *.gch
 
 src/*~
+
+strings.cpp

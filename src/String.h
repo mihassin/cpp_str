@@ -8,15 +8,22 @@
 	  String();	
 	  String(const char*);
 	  String(const String&);
+	  String(String&&); //move c:tor
+	  //String(initializer_list<char> lst);
 
 	  //Destructor
 	  ~String() { delete[] characters; }
 
 	  //copy assignment
 	  String& operator=(const String&);
+	  //move assignment
+	  String& operator=(String&&);
 	
 	  //Returns String length
 	  unsigned int get_length() const { return length; }
+
+	  // C string.h equivalent function. Returns the number of cells in char array
+	  int strlen(const char*);
 
 	  //required functions
 
@@ -26,7 +33,7 @@
 
 	  //insertion and deletion functions
 	  void push_back(char);
-	  void pop_back();
+	  char pop_back();
 	  void insert();
 	  void erase();
 	
