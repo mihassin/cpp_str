@@ -15,7 +15,13 @@ String str_3 = "moi";
 // access and modify:
 // stream output and input
 std::cout << str_3;
-str.swap(str_3); 
-cout << str << '\t' << str_3 << endl;
-	return 0;
+str.swap(str_3);
+cout << str.get_length() << endl; 
+cout << str << '\t' << str_3 << '\t' <<  str.pop_back()<< endl;
+	cout << str.get_length();
+	for(int i = 0; i<str.get_length() ; ++i)
+	{
+	cout << str[i] << endl;
+	} 
+return 0;
 }

@@ -14,13 +14,18 @@ String::String(const char* chars)
 {
 	length = strlen(chars);
 	characters = new char[length+1];
+
 	//coping the values
 	for(int i = 0; i<=length; ++i) { characters[i] = chars[i]; }
+
 	//last character of string is the null char '\0'
 	characters[length] = '\0';
 }
 
-//Copy constructor
+/* Copy constructor.
+   Constructor structure is similar to String::String(const char* chars).
+   Only difference is the function arg, which alters few lines.
+*/
 String::String(const String& str)
 {
 	length = str.get_length();
@@ -73,6 +78,20 @@ int String::strlen(const char* p)
 	int count = 0;
 	while(*p) { ++count; ++p; }
 	return count;
+}
+
+//push_back
+//void String::push_back(char);
+
+/* pop_back:
+   removes the last element in strings character array
+*/
+char String::pop_back()
+{
+	char ret = characters[length-1];
+	characters[length-1] = '\0';
+	length -= 1;
+	return ret;
 }
 
 // overloaded operator<<
