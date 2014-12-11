@@ -62,18 +62,6 @@ String& String::operator=(String&& str)
 	return *this;	
 }
 
-// overloaded operator<<
-std::ostream& operator<<(std::ostream& os, const String& str) { return os << str.characters; }
-
-//overloaded operator>>
-std::istream& operator>>(std::istream& is, String& str)
-{
-	char* arr = new char[255];
-	is >> arr;
-	str = arr;	
-	return is;	
-}
-
 /*
    strlen equivalent
    arg: const char* p
@@ -87,3 +75,22 @@ int String::strlen(const char* p)
 	return count;
 }
 
+// overloaded operator<<
+std::ostream& operator<<(std::ostream& os, const String& str) { return os << str.characters; }
+
+//overloaded operator>>
+std::istream& operator>>(std::istream& is, String& str)
+{
+	char* arr = new char[255];
+	is >> arr;
+	str = arr;	
+	return is;	
+}
+
+//swap
+String& String::swap(String& str)
+{
+	String tmp = str;
+	str = *this;
+	*this = tmp;	
+}

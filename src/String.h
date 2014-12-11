@@ -42,7 +42,7 @@
 	  friend std::istream& operator>>(std::istream&, String&);
 
 	  //swap() exhanges the contents of two strings
-  	  String& swap(const String&);
+  	  String& swap(String&);
   private:
 	  unsigned int length;
 	  char* characters;
