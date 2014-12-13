@@ -19,6 +19,10 @@ str.insert(3, " kaikki");
 cout << str << endl;
 
 str.erase(5,9);
-cout << str << endl << str.size();
+str.clear();
+str = "moi";
+String str1 = " kaikki";
+
+cout << "pakki"+str << endl << str.size();
 return 0;
 }

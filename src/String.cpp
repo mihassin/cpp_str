@@ -58,10 +58,8 @@ String::String(String&& str)
 //Destructor
 String::~String()
 {
-	if(characters != NULL) {
-	  delete[] characters;
-	  characters = NULL;
-	}
+	delete[] characters;
+	length_ = 0;
 }
 
 //copy assignment
@@ -115,6 +113,12 @@ char String::operator[](size_t i) const
 	if( i < 0 || i > length_ )
 		throw StringIndexOutOfBounds();
 	return characters[i];
+}
+
+//push_front
+void String::push_front(const char& ch)
+{
+	insert(0, ch);
 }
 
 //push_back
@@ -185,7 +189,7 @@ bool String::insert(size_t position, const String& str)
 	return true;
 }
 
-//erase
+// erases a character from a single position
 bool String::erase(const size_t& position)
 {
 	if(position < 0 || position >= length_) return false;
@@ -201,6 +205,7 @@ bool String::erase(const size_t& position)
 	return true;
 }
 
+// Erases a substring from String. Substring is marked with constants begin and end which are indexes of String 
 bool String::erase(const size_t& begin, const size_t& end)
 {
 	//Sanity checks
@@ -215,7 +220,7 @@ bool String::erase(const size_t& begin, const size_t& end)
 	tmp = characters;
 	
 	size_t delta = end - begin; // delta is the "size" of substr marked by constants begin and end
-	++delta; //if end: 7, begin: 7 => delta: 1
+	++delta; //if end: 7, begin: 7 => delta: 1 (single character has size of one)
 
 	length_ -= delta;
 	characters = new char[length_+1];
@@ -260,13 +265,37 @@ bool String::empty()
 	else return false;
 }
 
+// Erases all characters from String and sets the length as zero
+void String::clear()
+{
+	*this = String(); // good bye world!
+}
+
+//returns a non-modifiable standart C character array version of the String
+const char* String::c_str() const
+{
+	return characters;
+}
+
+const String operator+(const String& lhs, const String& rhs)
+{
+	String str(lhs);
+	return str += rhs;
+}
+
+const String& String::operator+=(const String& rhs)
+{
+	insert(length_, rhs);
+	return *this;
+}
+
 /* Other functions require deletion of characters array.
    This function helps to do this task safely.
 */
 inline void String::safe_release(char* chars)
 {
-	if(chars != NULL) {
+	if(chars != nullptr) {
 	  delete[] chars;
-	  chars = NULL;
+	  chars = nullptr;
 	}	
 }

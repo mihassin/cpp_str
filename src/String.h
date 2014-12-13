@@ -89,6 +89,7 @@ class String
 	  char operator[](size_t) const;
 
 	  //insertion and deletion functions
+	  void push_front(const char&); 
 	  void push_back(const char&);
 	  char pop_back();
 	  bool insert(size_t, const char&);
@@ -100,12 +101,21 @@ class String
 	  friend std::ostream& operator<<(std::ostream&, const String&);
 	  friend std::istream& operator>>(std::istream&, String&);
 
-
 	  //swap() exhanges the contents of two strings
   	  String& swap(String&);
 
 	  //checks if String has characters
 	  bool empty();
+
+	  //erases all characters from String
+	  void clear();
+
+	  //returns a non-modifiable standart C character array version of the String
+	  const char* c_str() const;
+
+	  //overloaded operators + and += for concatenation
+	  friend const String operator+(const String&, const String&);
+	  const String& operator+=(const String&);
 
 	  /* Some functions require characters array deletion.
 	     This function will do it safely.
