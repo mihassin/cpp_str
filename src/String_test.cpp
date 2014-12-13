@@ -10,18 +10,17 @@ String str = "C-style string literal"; // is the same as: String str("C-style st
 String str_2(str);
 String str_3 = "moi";
 //Optional - not required:
-//String str_4 = { 'H','e','l','l','o' }; // list initializer construction
+String str_4 = { 'H','e','l','l','o' }; // list initializer construction
+cout << str_4 << endl;
 	// Using strings
 // access and modify:
 // stream output and input
+String str_empty;
+
+if(str_empty.empty()) cout << "im empty\n";
+
 std::cout << str_3;
 str.swap(str_3);
-cout << str.get_length() << endl; 
-cout << str << '\t' << str_3 << '\t' <<  str.pop_back()<< endl;
-	cout << str.get_length();
-	for(int i = 0; i<str.get_length() ; ++i)
-	{
-	cout << str[i] << endl;
-	} 
+
 return 0;
 }
