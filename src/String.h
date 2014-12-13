@@ -91,9 +91,10 @@ class String
 	  //insertion and deletion functions
 	  void push_back(const char&);
 	  char pop_back();
-	  void insert(size_t, const char&);
-	  void insert(size_t, const String&);
-	  bool erase(const size_t);
+	  bool insert(size_t, const char&);
+	  bool insert(size_t, const String&);
+	  bool erase(const size_t&);
+	  bool erase(const size_t&, const size_t&);
 	
 	  //overloaded input and output operations
 	  friend std::ostream& operator<<(std::ostream&, const String&);

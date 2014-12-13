@@ -143,9 +143,9 @@ char String::pop_back()
 	   where position marks the character which infront the new character will be placed
 	C. To the end of the String
 */
-void String::insert(size_t position, const char& ch)
+bool String::insert(size_t position, const char& ch)
 {
-	if(position > length_ + 1) return; //length+1, because we might want to insert a character as a last one of the string
+	if(position < 0 || position > length_) return false;
 	char* tmp = new char[length_];
 	tmp = characters;
 
@@ -155,17 +155,18 @@ void String::insert(size_t position, const char& ch)
 	for(size_t i = 0; i < position; ++i) { characters[i] = tmp[i]; } //characters before position
 	for(size_t i = position; i < length_; ++i) { characters[i] = tmp[i-1]; } //characters after position
 
-	characters[position-1] = ch; //insertion
+	characters[position] = ch; //insertion
 	characters[length_] = '\0'; //last character
 	safe_release(tmp);
+	return true;
 }
 
 /* Inserts a String into String.
    Possible cases are the same as above.
 */
-void String::insert(size_t position, const String& str)
+bool String::insert(size_t position, const String& str)
 {
-	if(position > length_ +1) return;
+	if(position < 0 || position > length_) return false;
 	char* tmp = new char[length_];
 	tmp = characters;
 	
@@ -181,7 +182,50 @@ void String::insert(size_t position, const String& str)
 	for(size_t i = position; i < position+s_len; ++i) { characters[i] = str[j]; ++j; }  	
 	characters[length_] = '\0'; //last character
 	safe_release(tmp);	
+	return true;
 }
+
+//erase
+bool String::erase(const size_t& position)
+{
+	if(position < 0 || position >= length_) return false;
+	
+	char* tmp = new char[length_+1];	
+	tmp = characters;
+
+	characters = new char[length_];
+	for(size_t i = 0; i<position; ++i) { characters[i] = tmp[i]; }
+	for(size_t i = position; i<length_; ++i) { characters[i] = tmp[i+1]; }	
+	--length_;
+	safe_release(tmp); // bye bye... :(
+	return true;
+}
+
+bool String::erase(const size_t& begin, const size_t& end)
+{
+	//Sanity checks
+	if(end < begin) return false;
+	if(end < 0 || end >= length_) return false;
+	if(begin < 0 || begin >= length_) return false;
+	
+	//if begin and end are same, we can use erase(const size_t&);	
+	if(begin == end) { erase(end); return true; }
+	
+	char* tmp = new char[length_+1];	
+	tmp = characters;
+	
+	size_t delta = end - begin; // delta is the "size" of substr marked by constants begin and end
+	++delta; //if end: 7, begin: 7 => delta: 1
+
+	length_ -= delta;
+	characters = new char[length_+1];
+	for(size_t i = 0; i<begin; ++i) { characters[i] = tmp[i]; }
+	for(size_t i = begin; i<length_; ++i) { characters[i] = tmp[i+end]; }	
+	
+	safe_release(tmp); // bye bye... :(
+	return true;
+}
+
 
 // overloaded operator<<
 std::ostream& operator<<(std::ostream& os, const String& str)
