@@ -58,7 +58,10 @@ String::String(String&& str)
 //Destructor
 String::~String()
 {
-	delete[] characters;
+	if(characters != NULL) {
+	  delete[] characters;
+	  characters = NULL;
+	}
 }
 
 //copy assignment
@@ -70,7 +73,7 @@ String& String::operator=(const String& str)
 	char* arr = new char[length_ + 1];		
 	for(size_t i = 0; i <= length_; ++i) { arr[i] = str[i]; }
 	arr[length_] = '\0';
-	delete[] characters;
+	safe_release(characters);
 	characters = arr;
 	return *this;
 }
@@ -78,7 +81,7 @@ String& String::operator=(const String& str)
 //move assignment
 String& String::operator=(String&& str)
 {
-	delete[] characters;
+	safe_release(characters);
 	characters = str.characters;
 	length_ = str.length();
 	str.characters = nullptr;
@@ -115,17 +118,69 @@ char String::operator[](size_t i) const
 }
 
 //push_back
-//void String::push_back(char);
+void String::push_back(const char& ch)
+{
+	insert(length_, ch);
+}
 
 /* pop_back:
    removes the last element in strings character array
 */
 char String::pop_back()
 {
-	char ret = characters[length_ - 1];
+	if(this->empty()) return '\0';
+
+	char popped_char = characters[length_ - 1];
 	characters[length_ - 1] = '\0';
 	length_ -= 1;
-	return ret;
+	return popped_char;
+}
+
+/* Insertion of a single character
+   Possible cases:
+	A. Infront of the String
+	B. In the middle of the String, 
+	   where position marks the character which infront the new character will be placed
+	C. To the end of the String
+*/
+void String::insert(size_t position, const char& ch)
+{
+	if(position > length_ + 1) return; //length+1, because we might want to insert a character as a last one of the string
+	char* tmp = new char[length_];
+	tmp = characters;
+
+	characters = new char[length_ + 2];
+	length_++;
+	
+	for(size_t i = 0; i < position; ++i) { characters[i] = tmp[i]; } //characters before position
+	for(size_t i = position; i < length_; ++i) { characters[i] = tmp[i-1]; } //characters after position
+
+	characters[position-1] = ch; //insertion
+	characters[length_] = '\0'; //last character
+	safe_release(tmp);
+}
+
+/* Inserts a String into String.
+   Possible cases are the same as above.
+*/
+void String::insert(size_t position, const String& str)
+{
+	if(position > length_ +1) return;
+	char* tmp = new char[length_];
+	tmp = characters;
+	
+	const size_t s_len = str.length();
+	
+	characters = new char[length_ + s_len + 1];
+	length_ += s_len;
+	
+	for(size_t i = 0; i < position; ++i) { characters[i] = tmp[i]; } //characters before position
+	for(size_t i = position+s_len; i < length_; ++i) { characters[i] = tmp[i-s_len]; } //characters after position
+	
+	size_t j = 0;
+	for(size_t i = position; i < position+s_len; ++i) { characters[i] = str[j]; ++j; }  	
+	characters[length_] = '\0'; //last character
+	safe_release(tmp);	
 }
 
 // overloaded operator<<
@@ -159,4 +214,15 @@ bool String::empty()
 {
 	if(length_ == 0) return true;
 	else return false;
+}
+
+/* Other functions require deletion of characters array.
+   This function helps to do this task safely.
+*/
+inline void String::safe_release(char* chars)
+{
+	if(chars != NULL) {
+	  delete[] chars;
+	  chars = NULL;
+	}	
 }

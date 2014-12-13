@@ -12,7 +12,7 @@ class String
 	  String();	
 	  String(const char*);
 	  String(const String&);
-	  String(String&&); //move c:tor
+	  String(String&&);
 	  String(std::initializer_list<char>);
 
 	  //Destructor
@@ -50,25 +50,30 @@ class String
 		T* operator->() { return p_; }
 		
 		bool operator==(const const_iterator& b) const { return p_ == b.p_; }
-		bool operator!=(const const_iterator& b) const { return p_ != b.p_; } 
+		bool operator!=(const const_iterator& b) const { return !(p_ == b.p_); } 
 	    private:
 		T* p_;
 	  };
 
-	  iterator<char> begin();
-	  iterator<char> end();
+	  //iterator functions
+	  iterator<char> begin() { return characters; }
+	  iterator<char> end() { return characters + length_; }
 
-	  const_iterator<char> begin() const;
-	  const_iterator<char> end() const;
+	  const_iterator<char> begin() const { return characters; } 
+	  const_iterator<char> end() const { return characters + length_; }
 
-	  size_t size();
+	  //Return the amount of characters in a String
+	  size_t size() const { return length_; }
 
 	  //copy assignment
 	  String& operator=(const String&);
 	  //move assignment
 	  String& operator=(String&&);
 	
-	  //Returns String length
+	  /* Same as size(). Length and size "mean" the same thing,
+	     but when we speak of strings we prefer the term length. 
+	     Size is better with iterators.
+	  */
 	  size_t length() const { return length_; }
 
 	  //C string.h equivalent function. Returns the number of cells in char array
@@ -84,10 +89,11 @@ class String
 	  char operator[](size_t) const;
 
 	  //insertion and deletion functions
-	  void push_back(char);
+	  void push_back(const char&);
 	  char pop_back();
-	  void insert();
-	  void erase();
+	  void insert(size_t, const char&);
+	  void insert(size_t, const String&);
+	  bool erase(const size_t);
 	
 	  //overloaded input and output operations
 	  friend std::ostream& operator<<(std::ostream&, const String&);
@@ -98,7 +104,12 @@ class String
   	  String& swap(String&);
 
 	  //checks if String has characters
-	  bool empty();	
+	  bool empty();
+
+	  /* Some functions require characters array deletion.
+	     This function will do it safely.
+	  */
+	  inline void safe_release(char*);
 	private:
 	  size_t length_;
 	  char* characters;
