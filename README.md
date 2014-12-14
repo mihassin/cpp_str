@@ -5,9 +5,11 @@ so far:
 1. String.h check
 2. String.cpp check
 3. assert and testing check
+
 ---------------------------
 
-!!!Required functions
+Required functions
+------------------
 1. constructors, assignment and destruction
 2. overloaded operator[]
 3. iterators
