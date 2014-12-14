@@ -7,7 +7,7 @@
 String::String()
 	:length_{0}, characters{new char[length_ + 1]}
 {
-	characters[1] = '\0';
+	characters[length_] = '\0';
 }
 
 //String from char array
@@ -96,6 +96,7 @@ size_t strlen(const char* p)
 size_t strcmp(const char* ptr1, const char* ptr2)
 {
 	size_t res = 0;
+	if(strlen(ptr1) == 0 && strlen(ptr2) == 0) return 0;
 	if(strlen(ptr1) > strlen(ptr2)) return 1; //if prt1 is longer, then there is a comparison between some char and '\0'
 	if(strlen(ptr1) < strlen(ptr2)) return -1; //if prt1 is longer, then there is a comparison between '\0' and some char 
 	
