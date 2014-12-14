@@ -3,6 +3,8 @@
 
 class StringIndexOutOfBounds{};
 
+class StringException{};
+
 class String
 {
 	public:
@@ -17,6 +19,80 @@ class String
 
 	  //Destructor
 	  ~String();
+
+	  //Return the amount of characters in a String
+	  size_t size() const;
+
+	  /* Same as size(). Length and size "mean" the same thing,
+	     but when we speak of strings we prefer the term length. 
+	     Size is better with iterators.
+	  */
+	  size_t length() const;
+
+	  //C string.h equivalent function. Returns the number of cells in char array
+	  friend size_t strlen(const char*);
+
+	  //C string.h equivalent function. Returns integral value indicating the relationship between the strings
+	  friend size_t strcmp(const char*, const char*);
+
+	  //copy assignment
+	  String& operator=(const String&);
+	  //move assignment
+	  String& operator=(String&&);
+
+	  //Maximum length for String object (amount of characters in one String)
+	  enum { MAX_LENGTH = 4096 };
+
+	  //checks if String has characters
+	  bool empty();
+
+	  //erases all characters from String
+	  void clear();
+
+	  //returns a non-modifiable standart C character array version of the String
+	  const char* c_str() const;
+
+	  //overloaded operators + and += for concatenation
+	  friend const String operator+(const String&, const String&);
+	  const String& operator+=(const String&);
+
+	  /* Some functions require characters array deletion.
+	     This function will do it safely.
+	  */
+	  inline void safe_release(char*);
+
+	  //Overloaded logic operators
+	  friend bool operator==(const String&, const String&);
+	  friend bool operator!=(const String&, const String&);
+	  friend bool operator<(const String&, const String&);
+	  friend bool operator<=(const String&, const String&);
+	  friend bool operator>(const String&, const String&);
+	  friend bool operator>=(const String&, const String&);
+
+	  //Required functions
+
+          //overloaded operator[] !cases i > length
+	  char& operator[](size_t);
+	  char operator[](size_t) const;
+
+	  //insertion and deletion functions
+	  void push_front(const char&); 
+	  void push_back(const char&);
+	  char pop_back();
+	  void insert(size_t, const char&);
+	  void insert(size_t, const String&);
+	  void erase(const size_t&);
+	  void erase(const size_t&, const size_t&);
+	
+	  //overloaded input and output operations
+	  friend std::ostream& operator<<(std::ostream&, const String&);
+	  friend std::istream& operator>>(std::istream&, String&);
+
+	  //swap() exhanges the contents of two strings
+  	  String& swap(String&);
+
+	  //check() ensures class invariant
+	  void check() const;
 
 	  // Iterators
 	  template<typename T>
@@ -61,66 +137,7 @@ class String
 
 	  const_iterator<char> begin() const { return characters; } 
 	  const_iterator<char> end() const { return characters + length_; }
-
-	  //Return the amount of characters in a String
-	  size_t size() const { return length_; }
-
-	  //copy assignment
-	  String& operator=(const String&);
-	  //move assignment
-	  String& operator=(String&&);
 	
-	  /* Same as size(). Length and size "mean" the same thing,
-	     but when we speak of strings we prefer the term length. 
-	     Size is better with iterators.
-	  */
-	  size_t length() const { return length_; }
-
-	  //C string.h equivalent function. Returns the number of cells in char array
-	  size_t strlen(const char*);
-
-	  //Maximum length for String object (amount of characters in one String)
-	  enum { MAX_LENGTH = 4096 };
-
-	  //required functions
-
-          //overloaded operator[] !cases i > length
-	  char& operator[](size_t);
-	  char operator[](size_t) const;
-
-	  //insertion and deletion functions
-	  void push_front(const char&); 
-	  void push_back(const char&);
-	  char pop_back();
-	  bool insert(size_t, const char&);
-	  bool insert(size_t, const String&);
-	  bool erase(const size_t&);
-	  bool erase(const size_t&, const size_t&);
-	
-	  //overloaded input and output operations
-	  friend std::ostream& operator<<(std::ostream&, const String&);
-	  friend std::istream& operator>>(std::istream&, String&);
-
-	  //swap() exhanges the contents of two strings
-  	  String& swap(String&);
-
-	  //checks if String has characters
-	  bool empty();
-
-	  //erases all characters from String
-	  void clear();
-
-	  //returns a non-modifiable standart C character array version of the String
-	  const char* c_str() const;
-
-	  //overloaded operators + and += for concatenation
-	  friend const String operator+(const String&, const String&);
-	  const String& operator+=(const String&);
-
-	  /* Some functions require characters array deletion.
-	     This function will do it safely.
-	  */
-	  inline void safe_release(char*);
 	private:
 	  size_t length_;
 	  char* characters;
