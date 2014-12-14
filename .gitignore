@@ -8,3 +8,6 @@ src/*.gch
 src/*~
 
 strings.cpp
+
+doc/*.pdf
+doc/*.odt
