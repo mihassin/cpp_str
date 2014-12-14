@@ -11,3 +11,4 @@ strings.cpp
 
 doc/*.pdf
 doc/*.odt
+doc/*.odt#
